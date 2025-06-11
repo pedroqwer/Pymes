@@ -1,0 +1,139 @@
+-- Crear la base de datos
+CREATE DATABASE IF NOT EXISTS panatallas CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE panatallas;
+
+-- ========================================
+-- Tabla: categorias
+-- Agrupa productos por tipo (LED, OLED, etc.)
+-- ========================================
+CREATE TABLE categorias (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
+    descripcion TEXT
+);
+
+-- ========================================
+-- Tabla: productos
+-- Inventario de pantallas o dispositivos
+-- ========================================
+CREATE TABLE productos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    descripcion TEXT,
+    modelo VARCHAR(50),
+    marca VARCHAR(50),
+    cantidad INT DEFAULT 0,
+    precio DECIMAL(10,2),
+    ubicacion VARCHAR(100),
+    fecha_ingreso DATE DEFAULT CURRENT_DATE,
+    categoria_id INT,
+    FOREIGN KEY (categoria_id) REFERENCES categorias(id)
+);
+
+-- ========================================
+-- Tabla: proveedores
+-- Información de los proveedores
+-- ========================================
+CREATE TABLE proveedores (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    contacto VARCHAR(100),
+    telefono VARCHAR(20),
+    email VARCHAR(100),
+    direccion TEXT
+);
+
+-- ========================================
+-- Tabla: entradas
+-- Registra ingreso de productos al inventario
+-- ========================================
+CREATE TABLE entradas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    producto_id INT,
+    cantidad INT NOT NULL,
+    fecha DATE DEFAULT CURRENT_DATE,
+    proveedor_id INT,
+    FOREIGN KEY (producto_id) REFERENCES productos(id),
+    FOREIGN KEY (proveedor_id) REFERENCES proveedores(id)
+);
+
+-- ========================================
+-- Tabla: salidas
+-- Registra productos que se retiran o venden
+-- ========================================
+CREATE TABLE salidas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    producto_id INT,
+    cantidad INT NOT NULL,
+    fecha DATE DEFAULT CURRENT_DATE,
+    observacion TEXT,
+    FOREIGN KEY (producto_id) REFERENCES productos(id)
+);
+
+-- ========================================
+-- Tabla: usuarios
+-- Usuarios que usan el sistema (admin, empleados)
+-- ========================================
+CREATE TABLE usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    usuario VARCHAR(50) NOT NULL UNIQUE,
+    contrasena VARCHAR(255) NOT NULL, -- debe guardarse hasheada
+    rol ENUM('admin', 'empleado') DEFAULT 'empleado'
+);
+
+-- ========================================
+-- Tabla: movimientos
+-- Historial unificado de entradas y salidas
+-- ========================================
+CREATE TABLE movimientos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    tipo ENUM('entrada', 'salida') NOT NULL,
+    producto_id INT NOT NULL,
+    cantidad INT NOT NULL,
+    usuario_id INT,
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    observacion TEXT,
+    FOREIGN KEY (producto_id) REFERENCES productos(id),
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+);
+
+-- ========================================
+-- Tabla: clientes
+-- Información de clientes para ventas
+-- ========================================
+CREATE TABLE clientes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    telefono VARCHAR(20),
+    email VARCHAR(100),
+    direccion TEXT
+);
+
+-- ========================================
+-- Tabla: ventas
+-- Registro general de ventas
+-- ========================================
+CREATE TABLE ventas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    cliente_id INT,
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    total DECIMAL(10,2),
+    usuario_id INT,
+    FOREIGN KEY (cliente_id) REFERENCES clientes(id),
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+);
+
+-- ========================================
+-- Tabla: detalle_venta
+-- Productos individuales dentro de cada venta
+-- ========================================
+CREATE TABLE detalle_venta (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    venta_id INT,
+    producto_id INT,
+    cantidad INT,
+    precio_unitario DECIMAL(10,2),
+    FOREIGN KEY (venta_id) REFERENCES ventas(id),
+    FOREIGN KEY (producto_id) REFERENCES productos(id)
+);
