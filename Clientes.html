@@ -1,88 +1,227 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Clientes</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-  }
-  nav {
-    background-color: #333;
-    padding: 1em;
-  }
-  nav a {
-    color: white;
-    margin-right: 15px;
-    text-decoration: none;
-  }
-  nav a:hover {
-    text-decoration: underline;
-  }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 1em;
-  }
-  th, td {
-    padding: 8px;
-    border: 1px solid #ccc;
-  }
-  th {
-    background-color: #eee;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Clientes</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav {
+      background-color: #333;
+      padding: 1em;
+    }
+
+    nav a {
+      color: white;
+      margin-right: 15px;
+      text-decoration: none;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .container {
+      padding: 2em;
+    }
+
+    .encabezado {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1em;
+      flex-wrap: wrap;
+    }
+
+    .botonesDiv {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      display: flex;
+      gap: 15px;
+    }
+
+    .butons:hover {
+      background-color: #000000;
+    }
+
+    button {
+      padding: 10px 20px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background-color 0.3s ease;
+      width: auto;
+    }
+
+    .cuadro-texto {
+      width: 100%;
+      max-width: 400px;
+      padding: 10px;
+      font-size: 16px;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1em;
+    }
+
+    th,
+    td {
+      padding: 8px;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f0f0f0;
+    }
+
+    @media (max-width: 600px) {
+      .cuadro-texto {
+        width: 100%;
+      }
+
+      .busqueda-container {
+        justify-content: center;
+      }
+
+      table,
+      thead,
+      tbody,
+      th,
+      td,
+      tr {
+        display: block;
+      }
+
+      th {
+        display: none;
+      }
+
+      td {
+        position: relative;
+        padding-left: 50%;
+        border: none;
+        border-bottom: 1px solid #ccc;
+      }
+
+      td::before {
+        position: absolute;
+        left: 10px;
+        top: 8px;
+        white-space: nowrap;
+        font-weight: bold;
+      }
+
+      td:nth-of-type(1)::before {
+        content: "Nombre";
+      }
+
+      td:nth-of-type(2)::before {
+        content: "Teléfono";
+      }
+
+      td:nth-of-type(3)::before {
+        content: "Email";
+      }
+
+      td:nth-of-type(4)::before {
+        content: "Dirección";
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<nav>
-  <a href="Dashboard.html">Inicio</a>
-  <a href="Clientes.html">Clientes</a>
-  <a href="Productos.html">Productos</a>
-  <a href="Ventas.html">Ventas</a>
-  <a href="Login.html">Cerrar sesión</a>
-</nav>
+  <nav>
+    <a href="Dashboard.html">Inicio</a>
+    <a href="Clientes.html">Clientes</a>
+    <a href="Productos.html">Productos</a>
+    <a href="Ventas.html">Ventas</a>
+    <a href="Login.html">Cerrar sesión</a>
+  </nav>
 
-<div class="content">
-  <h1>Lista de Clientes</h1>
-  <table>
-    <thead>
-      <tr>
-        <th>Nombre</th>
-        <th>Teléfono</th>
-        <th>Email</th>
-        <th>Dirección</th>
-      </tr>
-    </thead>
-    <tbody id="clientesBody">
-      <!-- Aquí se cargan los clientes con JS -->
-    </tbody>
-  </table>
-</div>
+  <div class="container">
+    <div class="encabezado">
+      <h1>Lista de Clientes</h1>
+      <input type="text" id="filtroNombre" class="cuadro-texto" placeholder="Escribe un nombre de cliente" />
+    </div>
 
-<script>
-  // Simulación: datos de clientes (luego conecta con DB o API)
-  const clientes = [
-    { nombre: 'Juan Pérez', telefono: '555-1234', email: 'juan@example.com', direccion: 'Calle Falsa 123' },
-    { nombre: 'María Gómez', telefono: '555-5678', email: 'maria@example.com', direccion: 'Av. Siempre Viva 742' },
-    { nombre: 'María Gómez', telefono: '555-5678', email: 'maria@example.com', direccion: 'Av. Siempre Viva 742' },
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Teléfono</th>
+          <th>Email</th>
+          <th>Dirección</th>
+        </tr>
+      </thead>
+      <tbody id="clientesBody">
+        <!-- Los clientes se cargan con JS -->
+      </tbody>
+    </table>
+  </div>
 
-  ];
+  <div class="botonesDiv">
+    <button class="butons">Eliminar</button>
+    <button class="butons">Modificar</button>
+    <button class="butons" id="Add">Agregar cliente</button>
+  </div>
 
-  const tbody = document.getElementById('clientesBody');
+  <script>
 
-  clientes.forEach(cliente => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${cliente.nombre}</td>
-      <td>${cliente.telefono}</td>
-      <td>${cliente.email}</td>
-      <td>${cliente.direccion}</td>
-    `;
-    tbody.appendChild(tr);
-  });
-</script>
+    document.getElementById('Add').addEventListener('click', function () {
+      window.location.href = 'AgregarCliente.html';
+    });
+    const clientes = [
+      { nombre: 'Juan Pérez', telefono: '555-1234', email: 'juan@example.com', direccion: 'Calle Falsa 123' },
+      { nombre: 'María Gómez', telefono: '555-5678', email: 'maria@example.com', direccion: 'Av. Siempre Viva 742' },
+      { nombre: 'Juan Sánchez', telefono: '555-9012', email: 'pedro@example.com', direccion: 'Calle Luna 45' }
+    ];
+
+    const tbody = document.getElementById('clientesBody');
+    const filtro = document.getElementById('filtroNombre');
+
+    function mostrarClientes(filtrados) {
+      tbody.innerHTML = '';
+      filtrados.forEach(cliente => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${cliente.nombre}</td>
+          <td>${cliente.telefono}</td>
+          <td>${cliente.email}</td>
+          <td>${cliente.direccion}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    filtro.addEventListener('input', () => {
+      const texto = filtro.value.toLowerCase();
+      const filtrados = clientes.filter(cliente =>
+        cliente.nombre.toLowerCase().includes(texto)
+      );
+      mostrarClientes(filtrados);
+    });
+
+    // Mostrar todos al inicio
+    mostrarClientes(clientes);
+  </script>
 
 </body>
+
 </html>
