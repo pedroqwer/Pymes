@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Clientes</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+  }
+  nav {
+    background-color: #333;
+    padding: 1em;
+  }
+  nav a {
+    color: white;
+    margin-right: 15px;
+    text-decoration: none;
+  }
+  nav a:hover {
+    text-decoration: underline;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1em;
+  }
+  th, td {
+    padding: 8px;
+    border: 1px solid #ccc;
+  }
+  th {
+    background-color: #eee;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="Dashboard.html">Inicio</a>
+  <a href="Clientes.html">Clientes</a>
+  <a href="Productos.html">Productos</a>
+  <a href="Ventas.html">Ventas</a>
+  <a href="Login.html">Cerrar sesión</a>
+</nav>
+
+<div class="content">
+  <h1>Lista de Clientes</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Teléfono</th>
+        <th>Email</th>
+        <th>Dirección</th>
+      </tr>
+    </thead>
+    <tbody id="clientesBody">
+      <!-- Aquí se cargan los clientes con JS -->
+    </tbody>
+  </table>
+</div>
+
+<script>
+  // Simulación: datos de clientes (luego conecta con DB o API)
+  const clientes = [
+    { nombre: 'Juan Pérez', telefono: '555-1234', email: 'juan@example.com', direccion: 'Calle Falsa 123' },
+    { nombre: 'María Gómez', telefono: '555-5678', email: 'maria@example.com', direccion: 'Av. Siempre Viva 742' },
+    { nombre: 'María Gómez', telefono: '555-5678', email: 'maria@example.com', direccion: 'Av. Siempre Viva 742' },
+
+  ];
+
+  const tbody = document.getElementById('clientesBody');
+
+  clientes.forEach(cliente => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${cliente.nombre}</td>
+      <td>${cliente.telefono}</td>
+      <td>${cliente.email}</td>
+      <td>${cliente.direccion}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+</script>
+
+</body>
+</html>
